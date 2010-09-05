@@ -57,7 +57,7 @@
 							<int key="NSfFlags">16</int>
 						</object>
 						<int key="IBUIButtonType">1</int>
-						<string key="IBUINormalTitle">Start Twitter</string>
+						<string key="IBUINormalTitle">Request Token</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
@@ -99,12 +99,12 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">startTwitter:</string>
+						<string key="label">requestToken:</string>
 						<reference key="source" ref="335545894"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">9</int>
+					<int key="connectionID">10</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -178,7 +178,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">9</int>
+			<int key="maxID">10</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -187,13 +187,13 @@
 					<string key="className">TwitterTestClientViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">startTwitter:</string>
+						<string key="NS.key.0">requestToken:</string>
 						<string key="NS.object.0">id</string>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">startTwitter:</string>
+						<string key="NS.key.0">requestToken:</string>
 						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">startTwitter:</string>
+							<string key="name">requestToken:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</object>

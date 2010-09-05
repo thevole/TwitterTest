@@ -24,14 +24,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 5B042868123401DA0048956E /* MGTwitterEngine.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 5B0427281233FD620048956E /* libMGTwitterEngine.a */;
+			remoteGlobalIDString = 5B0427281233FD620048956E;
 			remoteInfo = libMGTwitterEngine;
 		};
 		5B042877123401F00048956E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5B042868123401DA0048956E /* MGTwitterEngine.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 5B0427271233FD620048956E /* libMGTwitterEngine */;
+			remoteGlobalIDString = 5B0427271233FD620048956E;
 			remoteInfo = libMGTwitterEngine;
 		};
 /* End PBXContainerItemProxy section */
@@ -246,6 +246,10 @@
 				GCC_PREFIX_HEADER = TwitterTestClient_Prefix.pch;
 				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/../MGTwitterEngine/**";
 				INFOPLIST_FILE = "TwitterTestClient-Info.plist";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_NAME = TwitterTestClient;
 			};
 			name = Debug;
@@ -259,6 +263,10 @@
 				GCC_PREFIX_HEADER = TwitterTestClient_Prefix.pch;
 				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/../MGTwitterEngine/**";
 				INFOPLIST_FILE = "TwitterTestClient-Info.plist";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_NAME = TwitterTestClient;
 				VALIDATE_PRODUCT = YES;
 			};

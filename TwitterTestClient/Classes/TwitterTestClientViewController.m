@@ -13,7 +13,7 @@
 @synthesize twitterEngine = twitterEngine_;
 
 
-- (IBAction)startTwitter:(id)sender {
+- (IBAction)requestToken:(id)sender {
     
 }
 
@@ -70,6 +70,17 @@
 - (void)dealloc {
     [twitterEngine_ release], twitterEngine_ = nil;
     [super dealloc];
+}
+
+#pragma mark -
+#pragma mark MGTwitterEngineDelegate methods
+
+- (void)requestSucceeded:(NSString *)connectionIdentifier {
+    
+}
+
+- (void)requestFailed:(NSString *)connectionIdentifier withError:(NSError *)error {
+    
 }
 
 @end

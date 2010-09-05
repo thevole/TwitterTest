@@ -16,7 +16,7 @@
 
 @property (nonatomic, retain) MGTwitterEngine *twitterEngine;
 
-- (IBAction)startTwitter:(id)sender;
+- (IBAction)requestToken:(id)sender;
 
 @end
 
