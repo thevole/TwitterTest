@@ -40,7 +40,7 @@
                                         realm:nil
                                         signatureProvider:nil];
     
-    [request setOAuthParameterName:@"oauth_callback" withValue:@"mvs://foo.bar"];
+    [request setOAuthParameterName:@"oauth_callback" withValue:@"x-mvs://tokencallback"];
     [consumer release];
     [request setHTTPMethod:@"POST"];
     

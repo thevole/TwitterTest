@@ -16,6 +16,18 @@
 @synthesize window;
 @synthesize viewController;
 
+#pragma mark -
+#pragma mark Custom URL Handling
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    if (!url) {
+        return NO;
+    }
+    
+    NSString *urlString = [url absoluteString];
+    DLog(@"Handled URL: %@", urlString);
+    return YES;
+}
 
 #pragma mark -
 #pragma mark Application lifecycle
