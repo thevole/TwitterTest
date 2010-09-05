@@ -13,6 +13,7 @@
 @interface TwitterTestClientAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
     TwitterTestClientViewController *viewController;
+    
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

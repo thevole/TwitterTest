@@ -10,6 +10,12 @@
 
 @implementation TwitterTestClientViewController
 
+@synthesize twitterEngine = twitterEngine_;
+
+
+- (IBAction)startTwitter:(id)sender {
+    
+}
 
 
 /*
@@ -29,12 +35,15 @@
 */
 
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+    twitterEngine_ = [[MGTwitterEngine alloc] initWithDelegate:self];
+    BBAssert(twitterEngine_, @"No Twitter Engine");
+    
 }
-*/
+
 
 
 /*
@@ -59,6 +68,7 @@
 
 
 - (void)dealloc {
+    [twitterEngine_ release], twitterEngine_ = nil;
     [super dealloc];
 }
 

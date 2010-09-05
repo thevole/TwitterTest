@@ -8,9 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TwitterTestClientViewController : UIViewController {
+#import <MGTwitterEngine.h>
 
+@interface TwitterTestClientViewController : UIViewController <MGTwitterEngineDelegate> {
+    MGTwitterEngine *twitterEngine_;
 }
+
+@property (nonatomic, retain) MGTwitterEngine *twitterEngine;
+
+- (IBAction)startTwitter:(id)sender;
 
 @end
 
