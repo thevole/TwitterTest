@@ -17,8 +17,36 @@
 
 @synthesize twitterEngine = twitterEngine_;
 @synthesize requestToken = requestToken_;
-@synthesize authorizeButton;
 @synthesize authorizationToken = authorizationToken_;
+@synthesize accessToken = accessToken_;
+@synthesize authorizeButton;
+@synthesize statusLabel;
+
+
+
+
+- (void)requestAccessToken {
+    OAConsumer *consumer = [[OAConsumer alloc]
+                            initWithKey:kConsumerKey secret:kConsumerSecret];
+    NSURL *requestURL = [NSURL URLWithString:@"https://api.twitter.com/oauth/access_token"];
+    
+    OAMutableURLRequest *request = [[OAMutableURLRequest alloc]
+                                    initWithURL:requestURL
+                                    consumer:consumer
+                                    token:self.authorizationToken
+                                    realm:nil
+                                    signatureProvider:nil];
+    
+    [consumer release];
+    [request setHTTPMethod:@"POST"];
+    
+    OADataFetcher *fetcher = [[OADataFetcher alloc] init];
+    [fetcher fetchDataWithRequest:request
+                         delegate:self didFinishSelector:@selector(accessTokenTicket:didFinishWithData:)
+                  didFailSelector:@selector(accessTokenTicket:didFailWithError:)];
+    [request release];
+    [fetcher release];
+}
 
 - (void)setAuthorizationToken:(OAToken *)token {
     if (token == authorizationToken_) {
@@ -28,6 +56,7 @@
     authorizationToken_ = [token retain];
     if (authorizing) {
         [self dismissModalViewControllerAnimated:YES];
+        [self requestAccessToken];
     }
 }
 
@@ -79,6 +108,21 @@
     DLog(@"Request token error: %@", [error localizedDescription]);
 }
 
+- (void)accessTokenTicket:(OAServiceTicket *)ticket didFinishWithData:(NSData *)data {
+    if (ticket.didSucceed) {
+        NSString *responseBody = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        accessToken_ = [[OAToken alloc] initWithHTTPResponseBody:responseBody];
+        [responseBody release];
+        DLog(@"AccessToken key: %@ secret: %@", self.accessToken.key, self.accessToken.secret);
+        self.statusLabel.text = @"Access Granted!";
+        
+    }
+}
+
+- (void)accessTokenTicket:(OAServiceTicket *)ticket didFailWithError:(NSError *)error {
+    DLog(@"Approved token error: %@", [error localizedDescription]);
+}
+
 
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -127,6 +171,7 @@
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
     self.authorizeButton = nil;
+    self.statusLabel = nil;
 }
 
 
@@ -135,7 +180,8 @@
     [requestToken_ release], requestToken_ = nil;    
     [authorizeButton release], authorizeButton = nil;
     [authorizationToken_ release], authorizationToken_ = nil;
-
+    [accessToken_ release], accessToken_ = nil;
+    [statusLabel release], statusLabel = nil;    
     
     [super dealloc];
 }
