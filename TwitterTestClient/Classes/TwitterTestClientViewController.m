@@ -7,6 +7,7 @@
 //
 
 #import "TwitterTestClientViewController.h"
+#import "AuthorizeViewController.h"
 #import <OAuthConsumer.h>
 
 #define kConsumerKey        @"PRHtBdH4IAw2wqeS9PgEg"
@@ -20,6 +21,10 @@
 
 
 - (IBAction)authorizeToken:(id)sender {
+    NSURL *authorizeURL = [NSURL URLWithString: 
+                            [NSString stringWithFormat:@"https://api.twitter.com/oauth/authorize?oauth_token=%@", self.requestToken.key]];
+    AuthorizeViewController *authorizeView = [[AuthorizeViewController alloc] initWithURL:authorizeURL];
+    [self presentModalViewController:authorizeView animated:YES];
     
 }
 
@@ -34,6 +39,8 @@
                                         token:nil
                                         realm:nil
                                         signatureProvider:nil];
+    
+    [request setOAuthParameterName:@"oauth_callback" withValue:@"mvs://foo.bar"];
     [consumer release];
     [request setHTTPMethod:@"POST"];
     
