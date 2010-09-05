@@ -17,6 +17,7 @@
     OAToken *accessToken_;
     
     UIButton *authorizeButton;
+    UIButton *testButton;
     UILabel *statusLabel;
     
     BOOL authorizing;
@@ -28,11 +29,13 @@
 @property (nonatomic, retain) OAToken *accessToken;
 
 @property (nonatomic, retain) IBOutlet UIButton *authorizeButton;
+@property (nonatomic, retain) IBOutlet UIButton *testButton;
 @property (nonatomic, retain) IBOutlet UILabel *statusLabel;
 
 
 - (IBAction)requestToken:(id)sender;
 - (IBAction)authorizeToken:(id)sender;
+- (IBAction)testTweet:(id)sender;
 
 @end
 

@@ -20,9 +20,8 @@
 @synthesize authorizationToken = authorizationToken_;
 @synthesize accessToken = accessToken_;
 @synthesize authorizeButton;
+@synthesize testButton;
 @synthesize statusLabel;
-
-
 
 
 - (void)requestAccessToken {
@@ -58,6 +57,11 @@
         [self dismissModalViewControllerAnimated:YES];
         [self requestAccessToken];
     }
+}
+
+- (IBAction)testTweet:(id)sender {
+    NSString *returnedString = [self.twitterEngine sendUpdate:@"@adamvole Just testing this code."];
+    DLog(@"Returned string: %@", returnedString);
 }
 
 - (IBAction)authorizeToken:(id)sender {
@@ -115,7 +119,8 @@
         [responseBody release];
         DLog(@"AccessToken key: %@ secret: %@", self.accessToken.key, self.accessToken.secret);
         self.statusLabel.text = @"Access Granted!";
-        
+        [self.twitterEngine setAccessToken:self.accessToken];
+        self.testButton.enabled = YES;
     }
 }
 
@@ -171,6 +176,7 @@
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
     self.authorizeButton = nil;
+    self.testButton = nil;
     self.statusLabel = nil;
 }
 
@@ -179,6 +185,7 @@
     [twitterEngine_ release], twitterEngine_ = nil;    
     [requestToken_ release], requestToken_ = nil;    
     [authorizeButton release], authorizeButton = nil;
+    [testButton release], testButton = nil;
     [authorizationToken_ release], authorizationToken_ = nil;
     [accessToken_ release], accessToken_ = nil;
     [statusLabel release], statusLabel = nil;    
@@ -190,11 +197,11 @@
 #pragma mark MGTwitterEngineDelegate methods
 
 - (void)requestSucceeded:(NSString *)connectionIdentifier {
-    
+    DLog(@"Success for id: %@", connectionIdentifier);
 }
 
 - (void)requestFailed:(NSString *)connectionIdentifier withError:(NSError *)error {
-    
+    DLog(@"Failure for id: %@\n%@", connectionIdentifier, [error localizedDescription]);
 }
 
 @end
