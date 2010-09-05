@@ -18,12 +18,25 @@
 @synthesize twitterEngine = twitterEngine_;
 @synthesize requestToken = requestToken_;
 @synthesize authorizeButton;
+@synthesize authorizationToken = authorizationToken_;
 
+- (void)setAuthorizationToken:(OAToken *)token {
+    if (token == authorizationToken_) {
+        return;
+    }
+    [authorizationToken_ release];
+    authorizationToken_ = [token retain];
+    if (authorizing) {
+        [self dismissModalViewControllerAnimated:YES];
+    }
+}
 
 - (IBAction)authorizeToken:(id)sender {
     NSURL *authorizeURL = [NSURL URLWithString: 
                             [NSString stringWithFormat:@"https://api.twitter.com/oauth/authorize?oauth_token=%@", self.requestToken.key]];
     AuthorizeViewController *authorizeView = [[AuthorizeViewController alloc] initWithURL:authorizeURL];
+
+    authorizing = YES;
     [self presentModalViewController:authorizeView animated:YES];
     
 }
@@ -121,6 +134,8 @@
     [twitterEngine_ release], twitterEngine_ = nil;    
     [requestToken_ release], requestToken_ = nil;    
     [authorizeButton release], authorizeButton = nil;
+    [authorizationToken_ release], authorizationToken_ = nil;
+
     
     [super dealloc];
 }

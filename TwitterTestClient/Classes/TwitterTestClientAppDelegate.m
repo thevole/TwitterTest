@@ -8,7 +8,7 @@
 
 #import "TwitterTestClientAppDelegate.h"
 #import "TwitterTestClientViewController.h"
-
+#import <OAuthConsumer.h>
 
 
 @implementation TwitterTestClientAppDelegate
@@ -26,6 +26,12 @@
     
     NSString *urlString = [url absoluteString];
     DLog(@"Handled URL: %@", urlString);
+    NSRange rng = [urlString rangeOfString:@"?"];
+    NSString *response = [urlString substringFromIndex:rng.location + 1];
+    DLog(@"Response: %@", response);
+    OAToken *authorizationToken = [[OAToken alloc] initWithHTTPResponseBody:response];
+    viewController.authorizationToken = authorizationToken;
+    [authorizationToken release];
     return YES;
 }
 

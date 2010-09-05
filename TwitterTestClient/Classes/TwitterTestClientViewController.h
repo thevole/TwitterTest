@@ -13,12 +13,16 @@
 @interface TwitterTestClientViewController : UIViewController <MGTwitterEngineDelegate> {
     MGTwitterEngine *twitterEngine_;
     OAToken *requestToken_;
+    OAToken *authorizationToken_;
     
     UIButton *authorizeButton;
+    
+    BOOL authorizing;
 }
 
 @property (nonatomic, retain) MGTwitterEngine *twitterEngine;
 @property (nonatomic, retain) OAToken *requestToken;
+@property (nonatomic, retain) OAToken *authorizationToken;
 @property (nonatomic, retain) IBOutlet UIButton *authorizeButton;
 
 
