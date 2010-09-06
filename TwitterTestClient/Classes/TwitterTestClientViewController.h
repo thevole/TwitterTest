@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 
 #import <MGTwitterEngine.h>
+#import <OAuthConsumer.h>
 
 @interface TwitterTestClientViewController : UIViewController <MGTwitterEngineDelegate> {
     MGTwitterEngine *twitterEngine_;
+    OAConsumer *consumer_;
     OAToken *requestToken_;
     OAToken *authorizationToken_;
     OAToken *accessToken_;
@@ -24,6 +26,7 @@
 }
 
 @property (nonatomic, retain) MGTwitterEngine *twitterEngine;
+@property (nonatomic, retain) OAConsumer *consumer;
 @property (nonatomic, retain) OAToken *requestToken;
 @property (nonatomic, retain) OAToken *authorizationToken;
 @property (nonatomic, retain) OAToken *accessToken;

@@ -8,7 +8,6 @@
 
 #import "TwitterTestClientViewController.h"
 #import "AuthorizeViewController.h"
-#import <OAuthConsumer.h>
 
 #define kConsumerKey        @"PRHtBdH4IAw2wqeS9PgEg"
 #define kConsumerSecret     @"d78HSniXbqQzSKweFi3CKFmxy9MSpo2LEkbB5aUY0"
@@ -16,6 +15,7 @@
 @implementation TwitterTestClientViewController
 
 @synthesize twitterEngine = twitterEngine_;
+@synthesize consumer = consumer_;
 @synthesize requestToken = requestToken_;
 @synthesize authorizationToken = authorizationToken_;
 @synthesize accessToken = accessToken_;
@@ -25,18 +25,15 @@
 
 
 - (void)requestAccessToken {
-    OAConsumer *consumer = [[OAConsumer alloc]
-                            initWithKey:kConsumerKey secret:kConsumerSecret];
     NSURL *requestURL = [NSURL URLWithString:@"https://api.twitter.com/oauth/access_token"];
     
     OAMutableURLRequest *request = [[OAMutableURLRequest alloc]
                                     initWithURL:requestURL
-                                    consumer:consumer
+                                    consumer:self.consumer
                                     token:self.authorizationToken
                                     realm:nil
                                     signatureProvider:nil];
     
-    [consumer release];
     [request setHTTPMethod:@"POST"];
     
     OADataFetcher *fetcher = [[OADataFetcher alloc] init];
@@ -60,8 +57,10 @@
 }
 
 - (IBAction)testTweet:(id)sender {
-    NSString *returnedString = [self.twitterEngine sendUpdate:@"@adamvole Just testing this code."];
-    DLog(@"Returned string: %@", returnedString);
+//    NSString *returnedString = [self.twitterEngine sendUpdate:@"@adamvole Just testing this code."];
+//    DLog(@"Returned string: %@", returnedString);
+    NSString *ref = [self.twitterEngine sendUpdate:@"@adamvole Testing my programming - please ignore"];
+    DLog(@"Returned ref: %@", ref);
 }
 
 - (IBAction)authorizeToken:(id)sender {
@@ -75,19 +74,16 @@
 }
 
 - (IBAction)requestToken:(id)sender {
-    OAConsumer *consumer = [[OAConsumer alloc]
-                            initWithKey:kConsumerKey secret:kConsumerSecret];
     NSURL *requestURL = [NSURL URLWithString:@"https://api.twitter.com/oauth/request_token"];
     
     OAMutableURLRequest *request = [[OAMutableURLRequest alloc]
                                     initWithURL:requestURL
-                                        consumer:consumer
+                                        consumer:self.consumer
                                         token:nil
                                         realm:nil
                                         signatureProvider:nil];
     
     [request setOAuthParameterName:@"oauth_callback" withValue:@"x-mvs://tokencallback"];
-    [consumer release];
     [request setHTTPMethod:@"POST"];
     
     OADataFetcher *fetcher = [[OADataFetcher alloc] init];
@@ -120,6 +116,7 @@
         DLog(@"AccessToken key: %@ secret: %@", self.accessToken.key, self.accessToken.secret);
         self.statusLabel.text = @"Access Granted!";
         [self.twitterEngine setAccessToken:self.accessToken];
+        
         self.testButton.enabled = YES;
     }
 }
@@ -151,6 +148,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     twitterEngine_ = [[MGTwitterEngine alloc] initWithDelegate:self];
+    OAConsumer *consumer = [[OAConsumer alloc]
+                            initWithKey:kConsumerKey secret:kConsumerSecret];
+    self.consumer = consumer;
+    [consumer release];
+    [self.twitterEngine setConsumerKey:self.consumer.key secret:self.consumer.secret];
+    
     BBAssert(twitterEngine_, @"No Twitter Engine");
     
 }
@@ -183,6 +186,7 @@
 
 - (void)dealloc {
     [twitterEngine_ release], twitterEngine_ = nil;    
+    [consumer_ release], consumer_ = nil;
     [requestToken_ release], requestToken_ = nil;    
     [authorizeButton release], authorizeButton = nil;
     [testButton release], testButton = nil;
@@ -202,6 +206,15 @@
 
 - (void)requestFailed:(NSString *)connectionIdentifier withError:(NSError *)error {
     DLog(@"Failure for id: %@\n%@", connectionIdentifier, [error localizedDescription]);
+    NSDictionary *userInfo = [error userInfo];
+    NSArray *keys = [userInfo allKeys];
+    for (NSString *key in keys) {
+        DLog(@"Key: %@ Value: %@", key, [userInfo objectForKey:key]);
+    }
+}
+
+- (void)statusesReceived:(NSArray *)statuses forRequest:(NSString *)connectionIdentifier {
+    DLog(@"Received %d statuses", [statuses count]);
 }
 
 @end
